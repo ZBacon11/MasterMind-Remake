@@ -3,32 +3,39 @@ import java.io.*;
 
 public class Mastermind{
     public static void main(String[] args){
-        System.out.println("Let's play Mastermind!\n");
         Scanner userInput = new Scanner(System.in);
-        String randPatt = getRandomPattern(true, 4); 
-        System.out.println(randPatt); 
-        System.out.println("Start a new game? (Enter yes or no): ");
-    
-        if(userInput.nextLine().toLowerCase().equals("yes")){
-            mastermind(randPatt);
-        } else{
-          System.exit(0); 
+        boolean playRound = true;
+        System.out.println("Let's play Mastermind!\n");
+         
+
+        while(playRound){
+          System.out.println("Start a new game? (Enter yes or no): ");
+          String userResponse = userInput.nextLine().toLowerCase();
+          String randPatt = getRandomPattern(false, 4);
+          // System.out.println(randPatt);          
+          if(!userResponse.equals("yes")){
+            playRound = false;
+            break;
+          }
+          mastermind(randPatt);  
         }
+      
+        System.out.println("Thanks for playing!");
+        userInput.close();
       
 
     }//main
 
   //
-  public static String mastermind(String target){
+  public static void mastermind(String target){
     Scanner eaglI = new Scanner(System.in);
     int attemptCount = 1;
     StringBuilder result = new StringBuilder(); 
-    System.out.print("Please Enter your Attempt: ");
+    System.out.print("\nPlease Enter your Attempt: ");
     String userAttempt = eaglI.nextLine().toUpperCase(); 
     
          while(!userAttempt.equals(target) && attemptCount < 8){
             result.setLength(0);
-            
            
             for(int i = 0; i < target.length(); i++){
                Character letter = userAttempt.charAt(i);
@@ -60,7 +67,6 @@ public class Mastermind{
          } else{
             System.out.printf("Congratulations! You won in %d attempts\n", attemptCount);
          }
-    return result.toString(); 
    }
 
     public static String getRandomPattern(boolean allowDupes, int patternLength){
@@ -81,6 +87,7 @@ public class Mastermind{
             return getRandomPattern(allowDupes, patternLength);
       }//while 
     }//getRandomPattern
+      
       return pattern;
   }
     
